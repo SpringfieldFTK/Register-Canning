@@ -117,7 +117,7 @@ while True:
     for i, v in enumerate(values):
         if len(v) == 9:
             if s == None:
-            create_session()
+                create_session()
         
             trip_id = int(trip_id_regex.match(v[2]).group(1))
             
