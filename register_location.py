@@ -108,14 +108,17 @@ with open('credentials.txt', 'r') as f:
 
 while True:
 
+    s = None
+
     result = service.spreadsheets().values().get(
     spreadsheetId=spreadsheetId, range=rangeName).execute()
     values = result.get('values', [])
 
-    create_session()
-
     for i, v in enumerate(values):
         if len(v) == 9:
+            if s == None:
+            create_session()
+        
             trip_id = int(trip_id_regex.match(v[2]).group(1))
             
             try:
