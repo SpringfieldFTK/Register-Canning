@@ -108,6 +108,7 @@ with open('credentials.txt', 'r') as f:
 
 while True:
 
+    try:
     s = None
 
     result = service.spreadsheets().values().get(
@@ -136,4 +137,6 @@ while True:
                                                     valueInputOption="USER_ENTERED")
             response = request.execute()
             
+    except Exception:
+        pass
     time.sleep(10)
