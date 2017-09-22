@@ -137,6 +137,6 @@ while True:
                                                         valueInputOption="USER_ENTERED")
                 response = request.execute()
             
-    except Exception:
-        pass
+    except Exception as e:
+        print(e)
     time.sleep(10)
