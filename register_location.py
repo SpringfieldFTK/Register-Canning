@@ -109,33 +109,33 @@ with open('credentials.txt', 'r') as f:
 while True:
 
     try:
-    s = None
+        s = None
 
-    result = service.spreadsheets().values().get(
-    spreadsheetId=spreadsheetId, range=rangeName).execute()
-    values = result.get('values', [])
+        result = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheetId, range=rangeName).execute()
+        values = result.get('values', [])
 
-    for i, v in enumerate(values):
-        if len(v) == 9:
-            if s == None:
-                create_session()
-        
-            trip_id = int(trip_id_regex.match(v[2]).group(1))
+        for i, v in enumerate(values):
+            if len(v) == 9:
+                if s == None:
+                    create_session()
             
-            try:
-                register_location(trip=trip_id, name=v[3], addr_line_1=v[4], addr_line_2=v[5], city=v[6], state=v[7], zip=v[8])
-                values = ['Registered']
-            except Exception as e:
-                values = ['ERROR: {}'.format(e)]
+                trip_id = int(trip_id_regex.match(v[2]).group(1))
                 
-            request = service.spreadsheets().values().update(spreadsheetId=spreadsheetId, range="Form Responses 1!J{}".format(i+2), body={
-                                                                                                                                  "range": "Form Responses 1!J{}".format(i+2),
-                                                                                                                                  "values": [
-                                                                                                                                    values
-                                                                                                                                  ],
-                                                                                                                                },
-                                                    valueInputOption="USER_ENTERED")
-            response = request.execute()
+                try:
+                    register_location(trip=trip_id, name=v[3], addr_line_1=v[4], addr_line_2=v[5], city=v[6], state=v[7], zip=v[8])
+                    values = ['Registered']
+                except Exception as e:
+                    values = ['ERROR: {}'.format(e)]
+                    
+                request = service.spreadsheets().values().update(spreadsheetId=spreadsheetId, range="Form Responses 1!J{}".format(i+2), body={
+                                                                                                                                      "range": "Form Responses 1!J{}".format(i+2),
+                                                                                                                                      "values": [
+                                                                                                                                        values
+                                                                                                                                      ],
+                                                                                                                                    },
+                                                        valueInputOption="USER_ENTERED")
+                response = request.execute()
             
     except Exception:
         pass
